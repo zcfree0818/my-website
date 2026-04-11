@@ -1,0 +1,17 @@
+{
+  "articles": [
+    {
+      "title": "Cloudflare R2 部署手册.md",
+      "date": "2026.04.11",
+      "url": "posts/r2-deploy.html"
+    },
+    {
+      "title": "RGV 控制逻辑优化方案.pdf",
+      "date": "2026.04.05",
+      "url": "#"
+    }
+  ],
+  "files": [
+    { "name": "同步日志_2026_Q2.txt", "type": "DOC" }
+  ]
+}
