@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloudflare R2 部署手册 | Dev.ZJY</title>
+    <style>
+        :root {
+            --bg-color: #020204;
+            --main-text: #ced4da;
+            --title-white: #e9ecef;
+            --accent-blue: #00f2fe;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --code-bg: #0f111a;
+        }
+        body { background: var(--bg-color); color: var(--main-text); font-family: 'PingFang SC', -apple-system, sans-serif; line-height: 1.8; margin: 0; }
+        .container { max-width: 800px; margin: 0 auto; padding: 60px 25px; }
+        
+        /* 导航回首页 */
+        .back-link { color: var(--accent-blue); text-decoration: none; font-size: 0.9rem; margin-bottom: 40px; display: inline-block; }
+        .back-link:hover { text-decoration: underline; }
+
+        h1 { color: var(--title-white); font-size: 2rem; margin-bottom: 10px; }
+        .meta { color: #6c757d; font-size: 0.85rem; margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        
+        h2 { color: var(--accent-blue); border-left: 3px solid var(--accent-blue); padding-left: 15px; margin-top: 40px; font-size: 1.3rem; }
+        p { margin-bottom: 20px; }
+        
+        /* 代码块样式 */
+        pre { background: var(--code-bg); padding: 20px; border-radius: 6px; overflow-x: auto; border: 1px solid var(--border-color); }
+        code { font-family: 'JetBrains Mono', monospace; color: #a6accd; font-size: 0.9rem; }
+        
+        .note { background: rgba(0, 242, 254, 0.05); border-left: 3px solid var(--accent-blue); padding: 15px 20px; margin: 25px 0; font-size: 0.9rem; }
+        footer { margin-top: 80px; text-align: center; font-size: 0.75rem; color: #495057; border-top: 1px solid var(--border-color); padding-top: 30px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="/" class="back-link">← 返回整备间</a>
+    
+    <h1>Cloudflare R2 部署手册</h1>
+    <div class="meta">发布日期: 2026.04.11 | 标签: 云端存储, 后端技术</div>
+
+    <p>Cloudflare R2 是一个免流量费的对象存储服务。对于机械与自动化工程师来说，它是存放大型日志、CAD 图纸和固件备份的理想选择。</p>
+
+    <h2>1. 存储桶配置</h2>
+    <p>首先在 Cloudflare 后台创建一个 Bucket，并命名为 <code>jinyi-storage</code>。为了确保安全，我们不建议开启公开访问。</p>
+
+    <h2>2. CORS 跨域策略</h2>
+    <div class="note">注意：如果不配置 CORS，你的网页前端将无法通过 JS 直接上传文件到 R2。</div>
+    <pre><code>[
+  {
+    "AllowedOrigins": ["https://www.jinyi.eu.org"],
+    "AllowedMethods": ["GET", "PUT", "POST"],
+    "AllowedHeaders": ["Content-Type", "X-Custom-Auth"]
+  }
+]</code></pre>
+
+    <h2>3. 费用控制</h2>
+    <p>R2 的免费额度为 10GB。建议在 R2 设置中开启生命周期规则，自动删除 30 天前的临时日志文件，以确保存储空间不超限。</p>
+
+    <footer>
+        © 2026 Z.J.Y // 工程师的数字化实践
+    </footer>
+</div>
+
+</body>
+</html>
