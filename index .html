@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dev.ZJY | Cloud Repository</title>
+    <style>
+        :root {
+            --bg-color: #020204;
+            --main-text: rgba(224, 230, 237, 0.95);
+            --sub-text: rgba(136, 136, 136, 0.5);
+            --border-color: rgba(255, 255, 255, 0.04);
+            --star-white: #ffffff;
+            --accent-blue: #00f2fe;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'JetBrains Mono', monospace; cursor: default; }
+        body { background-color: var(--bg-color); color: var(--main-text); line-height: 1.6; overflow-x: hidden; }
+
+        /* --- 头部窄条 (保持星空黑洞效果) --- */
+        .header-strip { height: 260px; width: 100%; position: relative; overflow: hidden; display: flex; align-items: flex-start; border-bottom: 1px solid var(--border-color); background: radial-gradient(circle at center, #1a0f2e 0%, var(--bg-color) 70%); }
+        #particle-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
+        .header-content { position: relative; z-index: 10; padding: 50px 0 0 7vw; pointer-events: none; }
+        .name { font-size: 2rem; font-weight: 300; letter-spacing: 8px; color: var(--star-white); text-shadow: 0 0 15px rgba(255, 255, 255, 0.4); }
+        .role { font-size: 0.75rem; color: rgba(255, 255, 255, 0.4); letter-spacing: 3px; text-transform: uppercase; }
+
+        /* --- 主体内容 --- */
+        .main-content { padding: 40px 7vw; max-width: 1000px; margin: 0 auto; }
+        .section-header { margin: 50px 0 25px; display: flex; align-items: center; gap: 20px; }
+        .section-header h2 { font-size: 0.9rem; letter-spacing: 4px; color: var(--sub-text); font-weight: 400; }
+        .section-header::after { content: ""; flex: 1; height: 1px; background: var(--border-color); }
+
+        /* --- 文章列表 (同前) --- */
+        .item-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 60px; }
+        .article-row { display: flex; justify-content: space-between; align-items: center; padding: 18px 25px; background: rgba(255, 255, 255, 0.01); border: 1px solid var(--border-color); border-radius: 4px; transition: 0.3s; text-decoration: none; color: inherit; }
+        .article-row:hover { border-color: rgba(255, 255, 255, 0.15); background: rgba(255, 255, 255, 0.02); transform: translateX(5px); }
+        .article-title { font-size: 1rem; font-weight: 400; color: #fff; }
+
+        /* --- ✨ 网盘全宽列表 (Transfer Station) --- */
+        .file-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        .file-row { 
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 15px 25px; border-bottom: 1px solid var(--border-color);
+            background: rgba(255, 255, 255, 0.005); transition: 0.3s;
+        }
+        .file-row:hover { background: rgba(255, 255, 255, 0.015); }
+        
+        .file-info { display: flex; align-items: center; gap: 15px; flex: 1; }
+        .file-icon { opacity: 0.3; font-size: 0.8rem; }
+        .file-name { font-size: 0.9rem; color: var(--main-text); }
+
+        .file-actions { display: flex; gap: 20px; }
+        .action-link { 
+            font-size: 0.7rem; color: var(--sub-text); text-decoration: none; 
+            letter-spacing: 1px; text-transform: uppercase; cursor: pointer;
+            border-bottom: 1px solid transparent; transition: 0.2s;
+        }
+        .action-link:hover { color: #fff; border-bottom: 1px solid #fff; }
+
+        /* --- ✨ 底部极简上传 --- */
+        .upload-footer { margin-top: 30px; text-align: right; }
+        #file-input { display: none; }
+        .mini-upload-btn { 
+            font-size: 0.75rem; color: var(--sub-text); border: 1px solid var(--border-color); 
+            padding: 8px 16px; border-radius: 3px; cursor: pointer; transition: 0.3s;
+            display: inline-flex; align-items: center; gap: 8px;
+        }
+        .mini-upload-btn:hover { border-color: rgba(255,255,255,0.3); color: #fff; }
+
+        /* 极简进度条 */
+        .mini-progress { height: 1px; background: var(--accent-blue); width: 0; position: fixed; bottom: 0; left: 0; transition: width 0.3s; }
+
+        footer { padding: 80px 0 40px; text-align: center; font-size: 0.6rem; color: var(--sub-text); letter-spacing: 2px; }
+    </style>
+</head>
+<body>
+
+    <header class="header-strip">
+        <canvas id="particle-canvas"></canvas>
+        <div class="header-content">
+            <div class="name-row">
+                <h1 class="name">Z.J.Y</h1>
+                <span class="role">Software Engineer</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="section-header"><h2>/ REPOSITORY</h2></div>
+        <div class="item-list">
+            <a href="#" class="article-row">
+                <span class="article-title">Cloudflare R2 Deployment.md</span>
+                <span style="font-size: 0.75rem; color: var(--sub-text);">2026.04.11</span>
+            </a>
+            <a href="#" class="article-row">
+                <span class="article-title">SingBox_Core_Logic.json</span>
+                <span style="font-size: 0.75rem; color: var(--sub-text);">2026.03.25</span>
+            </a>
+        </div>
+
+        <div class="section-header"><h2>/ TRANSFER_STATION</h2></div>
+        <div id="file-container">
+            <div class="file-row">
+                <div class="file-info">
+                    <span class="file-icon">[FILE]</span>
+                    <span class="file-name">Last_Sync_Log.txt</span>
+                </div>
+                <div class="file-actions">
+                    <span class="action-link" onclick="copyLink()">Share</span>
+                    <span class="action-link" onclick="downloadFile()">Download</span>
+                </div>
+            </div>
+            <div class="file-row">
+                <div class="file-info">
+                    <span class="file-icon">[IMG]</span>
+                    <span class="file-name">RGV_Design_Final.png</span>
+                </div>
+                <div class="file-actions">
+                    <span class="action-link" onclick="copyLink()">Share</span>
+                    <span class="action-link" onclick="downloadFile()">Download</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="upload-footer">
+            <input type="file" id="file-input">
+            <label for="file-input" class="mini-upload-btn">
+                <span>+ UPLOAD_NEW_DATA</span>
+            </label>
+        </div>
+    </main>
+
+    <div class="mini-progress" id="upload-progress"></div>
+
+    <footer>
+        <p>DEPLOAYED ON CLOUDFLARE PAGES // SYSTEM_STATUS: OPERATIONAL</p>
+    </footer>
+
+    <script>
+        // --- 1. 星空动画 (同前，已优化性能) ---
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        const header = document.querySelector('.header-strip');
+        function resize() { canvas.width = header.clientWidth; canvas.height = header.clientHeight; }
+        window.addEventListener('resize', resize); resize();
+
+        let mouse = { x: null, y: null, active: false };
+        header.addEventListener('mousemove', (e) => { mouse.x = e.offsetX; mouse.y = e.offsetY; mouse.active = true; });
+        header.addEventListener('mouseleave', () => { mouse.active = false; });
+
+        let particles = [];
+        const colors = ['#ffffff', '#e0f7fa', '#fffde7'];
+        class Particle {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.5) * 0.3; this.vy = (Math.random() - 0.5) * 0.3;
+                this.size = Math.random() * 1.2; this.life = Math.random() * 150 + 100;
+                this.initialLife = this.life; this.color = colors[Math.floor(Math.random() * colors.length)];
+            }
+            update() {
+                this.x += this.vx; this.y += this.vy;
+                if (mouse.active) {
+                    const dx = this.x - mouse.x; const dy = this.y - mouse.y;
+                    const dist = Math.sqrt(dx*dx + dy*dy);
+                    if (dist < 200) {
+                        const force = (200 - dist) / 200; const angle = Math.atan2(dy, dx);
+                        this.vx -= Math.cos(angle) * force * 0.4; this.vy -= Math.sin(angle) * force * 0.4;
+                    }
+                }
+                this.vx *= 0.98; this.vy *= 0.98; this.life--;
+                if(this.life <= 0) this.reset();
+            }
+            draw() {
+                const opacity = this.life / this.initialLife * 0.5;
+                ctx.save(); ctx.globalAlpha = opacity; ctx.fillStyle = this.color;
+                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI*2); ctx.fill(); ctx.restore();
+            }
+        }
+        for(let i=0; i<300; i++) particles.push(new Particle());
+        function anim() { ctx.fillStyle = 'rgba(2, 2, 4, 0.1)'; ctx.fillRect(0, 0, canvas.width, canvas.height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(anim); }
+        anim();
+
+        // --- 2. 网盘逻辑优化 ---
+        const fileInput = document.getElementById('file-input');
+        const progress = document.getElementById('upload-progress');
+        const fileContainer = document.getElementById('file-container');
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                let p = 0;
+                const timer = setInterval(() => {
+                    p += 5;
+                    progress.style.width = p + '%';
+                    if (p >= 100) {
+                        clearInterval(timer);
+                        setTimeout(() => {
+                            addNewFileRow(file.name);
+                            progress.style.width = '0%';
+                        }, 500);
+                    }
+                }, 50);
+            }
+        });
+
+        function addNewFileRow(name) {
+            const row = document.createElement('div');
+            row.className = 'file-row';
+            row.innerHTML = `
+                <div class="file-info">
+                    <span class="file-icon">[NEW]</span>
+                    <span class="file-name">${name}</span>
+                </div>
+                <div class="file-actions">
+                    <span class="action-link" onclick="alert('Link Copied')">Share</span>
+                    <span class="action-link" onclick="alert('Downloading...')">Download</span>
+                </div>
+            `;
+            fileContainer.prepend(row);
+        }
+
+        function copyLink() { alert('Share link copied to clipboard.'); }
+        function downloadFile() { alert('Download started...'); }
+    </script>
+</body>
+</html>
