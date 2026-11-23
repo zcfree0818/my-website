@@ -2,157 +2,1306 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dev.ZJY | 主页</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2, viewport-fit=cover">
+    <title>Z.J.Y | 机械与自动化工程 · 数字化空间</title>
+    <meta name="description" content="Z.J.Y 个人数字主页 - 机械工程、自动化控制与 Cloudflare 边缘计算数字化实践">
     <style>
+        /* ================= 全局设计令牌与基础样式 ================= */
         :root {
-            --bg-color: #020204;
-            --main-text: #ced4da;
-            --title-white: #e9ecef;
-            --sub-text: #6c757d;
+            --bg-color: #030407;
+            --card-bg: rgba(14, 18, 28, 0.75);
+            --card-hover-bg: rgba(20, 26, 40, 0.88);
             --border-color: rgba(255, 255, 255, 0.08);
-            --accent-blue: #00f2fe;
-            --danger-red: #ff7875;
+            --border-hover: rgba(0, 242, 254, 0.4);
+            --title-white: #f8fafc;
+            --main-text: #cbd5e1;
+            --sub-text: #64748b;
+            --accent-cyan: #00f2fe;
+            --accent-purple: #c084fc;
+            --accent-blue: #4facfe;
+            --accent-emerald: #10b981;
+            --accent-amber: #f59e0b;
+            --font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+            --font-sans: 'PingFang SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'JetBrains Mono', 'PingFang SC', monospace; cursor: default; }
-        body { background-color: var(--bg-color); color: var(--main-text); line-height: 1.6; overflow-x: hidden; }
-
-        .header-strip { height: 260px; width: 100%; position: relative; overflow: hidden; display: flex; align-items: flex-start; border-bottom: 1px solid var(--border-color); background: radial-gradient(circle at center, #100a1f 0%, var(--bg-color) 85%); }
-        #particle-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
-        .header-content { position: relative; z-index: 10; padding: 60px 0 0 7vw; pointer-events: none; }
-        .name { font-size: 1.8rem; font-weight: 300; letter-spacing: 6px; color: var(--title-white); text-shadow: 0 0 20px rgba(0, 242, 254, 0.2); }
-        .role { font-size: 0.7rem; color: var(--sub-text); letter-spacing: 3px; text-transform: uppercase; margin-top: 8px; display: block; }
-
-        .main-content { padding: 40px 7vw; max-width: 900px; margin: 0 auto; min-height: 80vh; }
-        .section-header { margin: 60px 0 25px; display: flex; align-items: center; gap: 20px; }
-        .section-header h2 { font-size: 0.85rem; letter-spacing: 3px; color: var(--sub-text); font-weight: 500; text-transform: uppercase; }
-        .section-header::after { content: ""; flex: 1; height: 1px; background: var(--border-color); }
-
-        .article-row, .file-row { 
-            display: flex; justify-content: space-between; align-items: center; 
-            padding: 18px 25px; background: rgba(255, 255, 255, 0.02); 
-            border: 1px solid var(--border-color); border-radius: 4px; 
-            transition: all 0.3s ease; text-decoration: none; color: inherit; margin-bottom: 12px;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: default;
         }
-        .article-row:hover, .file-row:hover { 
-            border-color: rgba(0, 242, 254, 0.3); 
-            background: rgba(255, 255, 255, 0.04); 
-            transform: translateX(4px); 
-        }
-        .article-title, .file-name { font-size: 0.95rem; color: var(--title-white); }
-        .date-tag { font-size: 0.75rem; color: var(--sub-text); }
 
-        .file-actions { display: flex; gap: 18px; }
-        .action-link { 
-            font-size: 0.7rem; color: var(--sub-text); text-decoration: none; 
-            letter-spacing: 1px; cursor: pointer; border-bottom: 1px solid transparent; transition: 0.2s; 
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+            background-color: var(--bg-color);
+            color: var(--main-text);
+            font-family: var(--font-sans);
+            line-height: 1.6;
         }
-        .action-link:hover { color: var(--accent-blue); border-bottom-color: var(--accent-blue); }
 
-        footer { padding: 100px 0 50px; text-align: center; font-size: 0.65rem; color: var(--sub-text); letter-spacing: 2px; opacity: 0.6; }
+        /* ================= 全屏黑洞引力粒子画布 (贯穿全站各幕与四周) ================= */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        main {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 2;
+        }
+
+        .content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        /* ================= 第一幕：INTRO 视效与开场 ================= */
+        .content-intro {
+            z-index: 10;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            user-select: none;
+        }
+
+        /* 右上角 GitHub 摇摆章鱼猫 */
+        .github-corner {
+            position: absolute;
+            top: 0;
+            right: 0;
+            border: 0;
+            z-index: 20;
+            cursor: pointer;
+        }
+        .github-corner svg {
+            fill: rgba(0, 242, 254, 0.15);
+            color: #00f2fe;
+            position: absolute;
+            top: 0;
+            right: 0;
+            border: 0;
+            width: 78px;
+            height: 78px;
+            transition: fill 0.3s;
+        }
+        .github-corner:hover svg {
+            fill: #00f2fe;
+            color: #050608;
+        }
+        .github-corner:hover .octo-arm {
+            animation: octocat-wave 560ms ease-in-out infinite alternate;
+        }
+        @keyframes octocat-wave {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(-22deg); }
+        }
+        .octo-arm {
+            transform-origin: 130px 106px;
+        }
+
+        /* 第一幕居中文本与交互层 */
+        .intro-wrap {
+            position: relative;
+            z-index: 5;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1.2s ease, transform 1.2s ease;
+            pointer-events: none;
+        }
+        .intro-wrap.in {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .content-title {
+            font-size: 3.6rem;
+            font-weight: 800;
+            letter-spacing: 10px;
+            color: var(--title-white);
+            text-transform: uppercase;
+            text-shadow: 0 0 30px rgba(0, 242, 254, 0.3);
+            background: linear-gradient(135deg, #ffffff 40%, var(--accent-cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+        }
+
+        .content-subtitle {
+            font-family: var(--font-mono);
+            font-size: 0.95rem;
+            color: var(--accent-cyan);
+            letter-spacing: 3px;
+            margin-bottom: 42px;
+            min-height: 24px;
+        }
+        .content-subtitle span {
+            display: inline-block;
+            opacity: 0;
+            animation: fadeInLetter 0.4s forwards;
+        }
+        @keyframes fadeInLetter {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 像素复古游戏风按钮：PRESS START */
+        .enter-btn {
+            display: inline-block;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            padding: 14px 34px;
+            color: #030407;
+            background: linear-gradient(90deg, #00f2fe, #4facfe);
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.4);
+            transition: all 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+        }
+        .enter-btn:hover {
+            transform: scale(1.06);
+            box-shadow: 0 0 35px rgba(0, 242, 254, 0.7);
+        }
+
+        /* 下滑呼吸箭头指示器 */
+        .scroll-hint {
+            margin-top: 32px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+        .scroll-text {
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            letter-spacing: 2px;
+            color: var(--sub-text);
+            text-transform: uppercase;
+        }
+        .arrow {
+            width: 14px;
+            height: 14px;
+            border-right: 2px solid var(--accent-cyan);
+            border-bottom: 2px solid var(--accent-cyan);
+            transform: rotate(45deg);
+            animation: arrow-bounce 1.6s infinite ease-in-out;
+        }
+        .arrow-2 {
+            margin-top: -6px;
+            animation-delay: 0.2s;
+            opacity: 0.6;
+        }
+        @keyframes arrow-bounce {
+            0%, 100% { transform: translateY(0) rotate(45deg); opacity: 0.2; }
+            50% { transform: translateY(8px) rotate(45deg); opacity: 1; }
+        }
+
+        /* ================= 转场：SVG 弹性液态波浪幕布 ================= */
+        .shape-wrap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 15;
+            display: block;
+        }
+        .shape {
+            width: 100%;
+            height: 100vh;
+            fill: #030407;
+        }
+
+        /* ================= 第二幕：MAIN 控制台工作台 ================= */
+        .content-main {
+            z-index: 5;
+            background: transparent;
+            overflow-y: auto;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+        .content-main.active {
+            opacity: 1;
+        }
+
+        /* 第二幕主体内容容器 */
+        .main-container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 1100px;
+            padding: 40px 24px 80px;
+            margin: 0 auto;
+        }
+
+        /* 顶部操作条与返回按钮 */
+        .top-action-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 26px;
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+        }
+        .back-to-intro {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--sub-text);
+            background: rgba(14, 18, 28, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            padding: 6px 14px;
+            border-radius: 9999px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .back-to-intro:hover {
+            color: var(--accent-cyan);
+            border-color: var(--accent-cyan);
+            background: rgba(0, 242, 254, 0.1);
+        }
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--accent-emerald);
+            background: rgba(16, 185, 129, 0.1);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            padding: 5px 14px;
+            border-radius: 9999px;
+        }
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent-emerald);
+            box-shadow: 0 0 8px var(--accent-emerald);
+            animation: pulse-dot 2s infinite ease-in-out;
+        }
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        /* 核心悬浮名片卡片 (深色毛玻璃透光) */
+        .profile-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 34px 28px;
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.7), 0 0 20px rgba(0, 242, 254, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+        .profile-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
+        }
+
+        .avatar-ring {
+            width: 84px;
+            height: 84px;
+            margin: 0 auto 16px;
+            border-radius: 50%;
+            padding: 3px;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .avatar-inner {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: #0d111c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: var(--accent-cyan);
+            font-weight: bold;
+            font-family: var(--font-mono);
+        }
+
+        .profile-name {
+            font-size: 1.8rem;
+            color: var(--title-white);
+            letter-spacing: 2px;
+            margin-bottom: 6px;
+        }
+        .profile-signature {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--accent-cyan);
+            letter-spacing: 1.5px;
+            margin-bottom: 22px;
+        }
+
+        /* 图标导航矩阵 */
+        .icon-nav-list {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            list-style: none;
+        }
+        .icon-nav-item {
+            text-decoration: none;
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+            color: var(--main-text);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-color);
+            padding: 9px 18px;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+        }
+        .icon-nav-item:hover {
+            color: #fff;
+            border-color: var(--accent-cyan);
+            background: rgba(0, 242, 254, 0.12);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 242, 254, 0.2);
+        }
+
+        /* 工作台各功能板块 */
+        .workbench-sections {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+        .section-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 24px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+            transition: border-color 0.25s;
+        }
+        .section-card:hover {
+            border-color: rgba(0, 242, 254, 0.3);
+        }
+
+        .sec-header {
+            font-family: var(--font-mono);
+            font-size: 0.76rem;
+            color: var(--sub-text);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 18px;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+            padding-bottom: 10px;
+        }
+        .sec-header::before {
+            content: '//';
+            color: var(--accent-cyan);
+            font-weight: bold;
+        }
+
+        /* ================= 双通道曲线相互追逐示波器组件 ================= */
+        .osc-container {
+            background: rgba(3, 5, 9, 0.92);
+            border: 1px solid rgba(0, 242, 254, 0.25);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 12px;
+            box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.85);
+        }
+        .osc-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 14px;
+            background: rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            color: var(--sub-text);
+        }
+        .osc-ch-group {
+            display: flex;
+            gap: 14px;
+            align-items: center;
+        }
+        .osc-status-led {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+        }
+        .osc-status-led.cyan { color: var(--accent-cyan); }
+        .osc-status-led.purple { color: var(--accent-purple); }
+        .led-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+        }
+        .led-dot.cyan {
+            background: var(--accent-cyan);
+            box-shadow: 0 0 6px var(--accent-cyan);
+        }
+        .led-dot.purple {
+            background: var(--accent-purple);
+            box-shadow: 0 0 6px var(--accent-purple);
+        }
+
+        .osc-screen {
+            width: 100%;
+            height: 110px;
+            position: relative;
+        }
+        #osc-canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .rgv-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+        }
+        .stat-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            padding: 6px 10px;
+            border-radius: 6px;
+        }
+        .stat-label { color: var(--sub-text); font-size: 0.65rem; }
+        .stat-val { color: var(--title-white); font-weight: bold; margin-top: 2px; }
+
+        /* 文章列表 */
+        .article-feed {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .article-entry {
+            text-decoration: none;
+            color: inherit;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            padding: 14px 18px;
+            border-radius: 8px;
+            transition: all 0.25s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .article-entry:hover {
+            border-color: var(--accent-cyan);
+            background: rgba(0, 242, 254, 0.06);
+            transform: translateX(4px);
+        }
+        .art-info { min-width: 0; }
+        .art-title-text { color: var(--title-white); font-size: 0.95rem; font-weight: 500; }
+        .art-meta-desc { font-size: 0.75rem; color: var(--sub-text); margin-top: 4px; font-family: var(--font-mono); }
+        .art-enter-arrow { color: var(--accent-cyan); font-family: var(--font-mono); font-size: 0.8rem; }
+
+        /* 文件中转站列表 */
+        .file-feed {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .file-entry {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            padding: 12px 16px;
+            border-radius: 8px;
+        }
+        .file-desc-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .file-type-pill {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            color: var(--accent-cyan);
+            background: rgba(0, 242, 254, 0.1);
+            padding: 3px 6px;
+            border-radius: 4px;
+        }
+        .file-name-span { font-size: 0.86rem; color: var(--title-white); }
+        .file-btn-group { display: flex; gap: 8px; }
+        .file-act-btn {
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            color: var(--main-text);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-color);
+            padding: 4px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .file-act-btn:hover {
+            color: #fff;
+            border-color: var(--accent-cyan);
+            background: rgba(0, 242, 254, 0.15);
+        }
+
+        /* 技能标签矩阵 */
+        .skill-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .chip {
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+            padding: 5px 12px;
+            border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            color: var(--main-text);
+            transition: all 0.2s;
+        }
+        .chip:hover {
+            border-color: var(--accent-cyan);
+            color: #fff;
+            background: rgba(0, 242, 254, 0.08);
+        }
+
+        /* Toast 提示 */
+        #toast-bubble {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(14, 18, 28, 0.95);
+            border: 1px solid var(--accent-cyan);
+            color: #fff;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            padding: 10px 20px;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 242, 254, 0.25);
+            transform: translateY(80px);
+            opacity: 0;
+            transition: transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28), opacity 0.3s;
+            z-index: 1000;
+            pointer-events: none;
+        }
+        #toast-bubble.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* 底部版权 */
+        footer {
+            margin-top: 50px;
+            text-align: center;
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--sub-text);
+            letter-spacing: 2px;
+        }
+
+        @media (max-width: 860px) {
+            .workbench-sections { grid-template-columns: 1fr; }
+            .content-title { font-size: 2.5rem; letter-spacing: 6px; }
+        }
     </style>
 </head>
 <body>
 
-    <header class="header-strip">
-        <canvas id="particle-canvas"></canvas>
-        <div class="header-content">
-            <h1 class="name">Z.J.Y</h1>
-            <span class="role">Mechanical & Automation Engineer</span>
+    <!-- 全屏固定：经典黑洞引力微星云粒子背景 (贯穿全站各幕与四周) -->
+    <canvas id="particle-canvas"></canvas>
+
+    <main>
+        <!-- ================= 第一幕：INTRO 经典黑洞引力微星云 ================= -->
+        <div class="content content-intro" id="content-intro">
+            <!-- 右上角 GitHub 摇摆章鱼猫 -->
+            <a class="github-corner" href="https://github.com/zcfree0818/my-website" target="_blank" rel="noopener noreferrer" aria-label="View source on GitHub">
+                <svg viewBox="0 0 250 250" aria-hidden="true">
+                    <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+                    <path class="octo-arm" d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor"></path>
+                    <path class="octo-body" d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor"></path>
+                </svg>
+            </a>
+
+            <!-- 居中标题与打字机副标题 -->
+            <div class="intro-wrap">
+                <h1 class="content-title">Z.J.Y</h1>
+                <div class="content-subtitle" id="intro-subtitle" data-text="Mechanical & Automation Engineer // Cloud Edge Explorer"></div>
+
+                <!-- 像素风启动按钮 -->
+                <button class="enter-btn" id="enter-btn">PRESS START</button>
+
+                <!-- 滚动提示与呼吸跳动双箭头 -->
+                <div class="scroll-hint" id="scroll-hint">
+                    <span class="scroll-text">SCROLL DOWN OR CLICK TO ENTER</span>
+                    <div class="arrow arrow-1"></div>
+                    <div class="arrow arrow-2"></div>
+                </div>
+            </div>
         </div>
-    </header>
 
-    <main class="main-content">
-        <div class="section-header"><h2>/ REPOSITORY</h2></div>
-        <div id="article-list"></div>
+        <!-- ================= 转场：SVG 弹性液态波浪幕布 ================= -->
+        <div class="shape-wrap" id="shape-wrap">
+            <svg class="shape" width="100%" height="100vh" preserveAspectRatio="none" viewBox="0 0 1440 800">
+                <path d="M-44-50C-52.71 28.52 15.86 8.186 184 14.69 383.3 22.39 462.5 12.58 638 14 835.5 15.6 987 6.4 1194 13.86 1661 30.68 1652-36.74 1582-140.1 1512-243.5 15.88-589.5-44-50Z" 
+                      data-morph="M -44,-50 C -137.1,117.4 67.86,445.5 236,452 435.3,459.7 500.5,242.6 676,244 873.5,245.6 957,522.4 1154,594 1593,753.7 1793,226.3 1582,-126 1371,-478.3 219.8,-524.2 -44,-50 Z"></path>
+            </svg>
+        </div>
 
-        <div class="section-header"><h2>/ TRANSFER_STATION</h2></div>
-        <div id="file-container"></div>
+        <!-- ================= 第二幕：MAIN 控制台工作台 ================= -->
+        <div class="content content-main" id="content-main">
+            <div class="main-container">
+                <!-- 顶部快捷操作栏 -->
+                <div class="top-action-bar">
+                    <button class="back-to-intro" onclick="backToIntro()">← 返回第一幕开场 (INTRO)</button>
+                    <div class="status-badge">
+                        <span class="status-dot"></span>
+                        <span id="sys-status-text">SYS: OPERATIONAL / CF-EDGE</span>
+                    </div>
+                </div>
+
+                <!-- 核心悬浮名片卡片 (深色毛玻璃透光) -->
+                <div class="profile-card">
+                    <div class="avatar-ring">
+                        <div class="avatar-inner">Z</div>
+                    </div>
+                    <h2 class="profile-name">Z.J.Y</h2>
+                    <p class="profile-signature">ENGINEERING | Physical & Automation >> /dev/Cloud</p>
+
+                    <!-- 快捷图标导航列表 -->
+                    <ul class="icon-nav-list">
+                        <li><a href="#repository" class="icon-nav-item">📖 <span>技术文档</span></a></li>
+                        <li><a href="#telemetry" class="icon-nav-item">⚡ <span>双曲线追逐</span></a></li>
+                        <li><a href="#transfer" class="icon-nav-item">📦 <span>中转站</span></a></li>
+                        <li><a href="#skills" class="icon-nav-item">🛠 <span>技能矩阵</span></a></li>
+                        <li><span class="icon-nav-item" onclick="copyContact()">✉️ <span>联系方式</span></span></li>
+                    </ul>
+                </div>
+
+                <!-- 工作台各功能板块 -->
+                <div class="workbench-sections">
+                    
+                    <!-- 板块 1: 技术文档与手册 -->
+                    <section class="section-card" id="repository">
+                        <div class="sec-header">REPOSITORY // PAPERS & MANUALS</div>
+                        <div class="article-feed" id="article-list">
+                            <!-- 动态加载文章 -->
+                        </div>
+                    </section>
+
+                    <!-- 板块 2: 两条带特效的流光曲线相互追逐组件 -->
+                    <section class="section-card" id="telemetry">
+                        <div class="sec-header">TELEMETRY // DUAL-STREAM CURVE CHASE</div>
+                        <div class="osc-container">
+                            <div class="osc-toolbar">
+                                <div class="osc-ch-group">
+                                    <span class="osc-status-led cyan"><span class="led-dot cyan"></span>CH1: LEADER</span>
+                                    <span class="osc-status-led purple"><span class="led-dot purple"></span>CH2: FOLLOWER</span>
+                                </div>
+                                <span>PHASE-LOCK // COHERENT CHASE</span>
+                            </div>
+                            <div class="osc-screen">
+                                <canvas id="osc-canvas"></canvas>
+                            </div>
+                        </div>
+                        <div class="rgv-stats">
+                            <div class="stat-item">
+                                <div class="stat-label">引领通道 (CH1 速度)</div>
+                                <div class="stat-val" id="ch1-speed" style="color: var(--accent-cyan);">1500.2 RPM</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-label">追逐通道 (CH2 响应)</div>
+                                <div class="stat-val" id="ch2-speed" style="color: var(--accent-purple);">1499.1 RPM</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-label">动态咬合相差 (Lag)</div>
+                                <div class="stat-val" id="ch-lag">14 ms (LOCKED)</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-label">双线耦合相干度</div>
+                                <div class="stat-val" style="color: var(--accent-emerald);">99.85 %</div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 板块 3: 工程文件与中转站 -->
+                    <section class="section-card" id="transfer">
+                        <div class="sec-header">TRANSFER_STATION // ASSETS</div>
+                        <div class="file-feed" id="file-container">
+                            <!-- 动态加载文件 -->
+                        </div>
+                    </section>
+
+                    <!-- 板块 4: 专业技能矩阵 -->
+                    <section class="section-card" id="skills">
+                        <div class="sec-header">CAPABILITIES // STACK</div>
+                        <div class="skill-chips" id="skills-container">
+                            <!-- 动态加载技能 -->
+                        </div>
+                    </section>
+
+                </div>
+
+                <!-- 页脚 -->
+                <footer>
+                    <p>DESIGNED FOR Z.J.Y // POWERED BY CLOUDFLARE EDGE // SYSTEM STATUS: OPERATIONAL</p>
+                </footer>
+            </div>
+        </div>
     </main>
 
-    <footer><p>DATA DRIVEN BY JSON // SYSTEM_STATUS: OPERATIONAL</p></footer>
+    <!-- 浮动通知气泡 -->
+    <div id="toast-bubble">已成功复制</div>
 
+    <!-- 本地引入 anime.js -->
+    <script src="assets/anime.min.js"></script>
+
+    <!-- ================= 交互与动画引擎脚本 ================= -->
     <script>
-        /* --- 1. 数据加载逻辑 --- */
+        /* --- 1. 数据驱动加载 --- */
         async function loadData() {
             try {
-                const response = await fetch('data.json');
-                const data = await response.json();
-                
+                const res = await fetch('data.json');
+                const data = await res.json();
+
                 // 渲染文章
-                const articleList = document.getElementById('article-list');
-                articleList.innerHTML = data.articles.map(art => `
-                    <a href="${art.url}" class="article-row">
-                        <span class="article-title">${art.title}</span>
-                        <span class="date-tag">${art.date}</span>
-                    </a>
-                `).join('');
+                const artBox = document.getElementById('article-list');
+                if (data.articles && artBox) {
+                    artBox.innerHTML = data.articles.map(art => `
+                        <a href="${art.url}" class="article-entry">
+                            <div class="art-info">
+                                <div class="art-title-text">${art.title}</div>
+                                <div class="art-meta-desc">📅 ${art.date} · 🏷 ${art.tag || 'DOC'} · ⏱ ${art.readTime || '3 min'}</div>
+                            </div>
+                            <div class="art-enter-arrow">READ →</div>
+                        </a>
+                    `).join('');
+                }
 
                 // 渲染文件
-                const fileContainer = document.getElementById('file-container');
-                fileContainer.innerHTML = data.files.map(file => `
-                    <div class="file-row">
-                        <div class="file-info"><span class="file-name">${file.name}</span></div>
-                        <div class="file-actions">
-                            <span class="action-link" onclick="alert('链接已复制')">SHARE</span>
-                            <span class="action-link" onclick="alert('准备下载')">DOWNLOAD</span>
+                const fileBox = document.getElementById('file-container');
+                if (data.files && fileBox) {
+                    fileBox.innerHTML = data.files.map(file => `
+                        <div class="file-entry">
+                            <div class="file-desc-left">
+                                <span class="file-type-pill">${file.type || 'FILE'}</span>
+                                <div>
+                                    <div class="file-name-span">${file.name}</div>
+                                    <div style="font-size: 0.68rem; color: var(--sub-text); font-family: var(--font-mono);">${file.size || '--'}</div>
+                                </div>
+                            </div>
+                            <div class="file-btn-group">
+                                <button class="file-act-btn" onclick="copyFileLink('${file.name}')">复制直链</button>
+                                <button class="file-act-btn" onclick="downloadFile('${file.downloadUrl || '#'}', '${file.name}')">下载</button>
+                            </div>
                         </div>
-                    </div>
-                `).join('');
-            } catch (error) {
-                console.error('加载失败:', error);
+                    `).join('');
+                }
+
+                // 渲染技能
+                const skillBox = document.getElementById('skills-container');
+                if (data.skills && skillBox) {
+                    skillBox.innerHTML = data.skills.map(s => `
+                        <span class="chip">${s.name}</span>
+                    `).join('');
+                }
+            } catch (err) {
+                console.warn('数据加载微提示:', err);
             }
         }
-        window.onload = () => { loadData(); anim(); };
 
-        /* --- 2. 黑洞引力特效 (回归版) --- */
-        const canvas = document.getElementById('particle-canvas');
-        const ctx = canvas.getContext('2d');
-        const header = document.querySelector('.header-strip');
-        let mouse = { x: null, y: null, active: false };
-        header.addEventListener('mousemove', (e) => {
-            const rect = canvas.getBoundingClientRect();
-            mouse.x = e.clientX - rect.left; mouse.y = e.clientY - rect.top; mouse.active = true;
-        });
-        header.addEventListener('mouseleave', () => { mouse.active = false; });
-        function resize() { canvas.width = header.clientWidth; canvas.height = header.clientHeight; }
-        window.addEventListener('resize', resize); resize();
+        /* --- 2. Toast 提示 --- */
+        let toastTimeout = null;
+        function showToast(msg) {
+            const el = document.getElementById('toast-bubble');
+            el.textContent = msg;
+            el.classList.add('show');
+            if (toastTimeout) clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => el.classList.remove('show'), 2400);
+        }
 
-        let particles = [];
-        class Particle {
-            constructor() { this.reset(); }
-            reset() {
-                this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height;
-                this.vx = (Math.random() - 0.5) * 0.4; this.vy = (Math.random() - 0.5) * 0.4;
-                this.size = Math.random() * 1.3; this.life = Math.random() * 200 + 100;
-                this.maxLife = this.life;
+        function copyContact() {
+            const email = "contact@jinyi.eu.org";
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(email).then(() => showToast(`已复制邮箱: ${email}`));
+            } else {
+                showToast(`联系邮箱: ${email}`);
             }
-            update() {
-                if (mouse.active) {
-                    const dx = this.x - mouse.x; const dy = this.y - mouse.y;
-                    const dist = Math.sqrt(dx*dx + dy*dy);
-                    if (dist < 250) {
-                        const force = (250 - dist) / 250; const angle = Math.atan2(dy, dx);
-                        this.vx -= Math.cos(angle) * force * 0.5; this.vy -= Math.sin(angle) * force * 0.5;
+        }
+
+        function copyFileLink(fileName) {
+            const link = `${window.location.origin}/${fileName}`;
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(link).then(() => showToast(`已复制文件直链`));
+            } else {
+                showToast(`直链已生成`);
+            }
+        }
+
+        function downloadFile(url, fileName) {
+            showToast(`正在准备文件传输: ${fileName}`);
+            if (url && url !== '#') setTimeout(() => { window.location.href = url; }, 500);
+        }
+
+        /* --- 3. 第一幕 Intro 打字机进场 --- */
+        function initIntro() {
+            const wrap = document.querySelector('.intro-wrap');
+            const sub = document.getElementById('intro-subtitle');
+            const rawText = sub.getAttribute('data-text');
+
+            setTimeout(() => {
+                wrap.classList.add('in');
+                sub.innerHTML = rawText.split('').map((char, idx) => 
+                    `<span style="animation-delay: ${idx * 0.035}s">${char === ' ' ? '&nbsp;' : char}</span>`
+                ).join('');
+            }, 300);
+        }
+
+        /* --- 4. 全局黑洞引力微星云粒子光效 (第一幕与第二幕四周全覆盖) --- */
+        function initParticleCanvas() {
+            const canvas = document.getElementById('particle-canvas');
+            const ctx = canvas.getContext('2d');
+            let mouse = { x: null, y: null, active: false };
+
+            window.addEventListener('mousemove', (e) => {
+                mouse.x = e.clientX;
+                mouse.y = e.clientY;
+                mouse.active = true;
+            });
+            window.addEventListener('mouseleave', () => { mouse.active = false; });
+
+            function resize() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            window.addEventListener('resize', resize);
+            resize();
+
+            let particles = [];
+            class Particle {
+                constructor() { this.reset(); }
+                reset() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.vx = (Math.random() - 0.5) * 0.42;
+                    this.vy = (Math.random() - 0.5) * 0.42;
+                    this.size = Math.random() * 1.35 + 0.35;
+                    this.life = Math.random() * 200 + 100;
+                    this.maxLife = this.life;
+                }
+                update() {
+                    if (mouse.active) {
+                        const dx = this.x - mouse.x;
+                        const dy = this.y - mouse.y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < 260) {
+                            const force = (260 - dist) / 260;
+                            const angle = Math.atan2(dy, dx);
+                            this.vx -= Math.cos(angle) * force * 0.52;
+                            this.vy -= Math.sin(angle) * force * 0.52;
+                        }
+                    }
+                    this.vx *= 0.97;
+                    this.vy *= 0.97;
+                    this.x += this.vx;
+                    this.y += this.vy;
+                    this.life--;
+                    if (this.life <= 0) this.reset();
+                }
+                draw() {
+                    const opacity = (this.life / this.maxLife) * 0.58;
+                    ctx.fillStyle = `rgba(206, 218, 230, ${opacity})`;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            for (let i = 0; i < 220; i++) {
+                particles.push(new Particle());
+            }
+
+            function anim() {
+                ctx.fillStyle = 'rgba(3, 4, 7, 0.22)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                for (let i = 0; i < particles.length; i++) {
+                    particles[i].update();
+                    particles[i].draw();
+                }
+                requestAnimationFrame(anim);
+            }
+            anim();
+        }
+
+        /* --- 5. 平滑拉幕转场逻辑 --- */
+        let isSwitched = false;
+        function switchPage() {
+            if (isSwitched) return;
+            isSwitched = true;
+
+            const introEl = document.getElementById('content-intro');
+            const mainEl = document.getElementById('content-main');
+            const shapeWrap = document.getElementById('shape-wrap');
+            const shapePath = document.querySelector('#shape-wrap path');
+            const targetPath = shapePath.getAttribute('data-morph');
+
+            shapeWrap.style.display = 'block';
+
+            if (window.anime) {
+                anime({
+                    targets: [introEl, shapeWrap],
+                    duration: 1100,
+                    easing: 'easeInOutSine',
+                    translateY: '-110vh',
+                    complete: function() {
+                        shapeWrap.style.display = 'none';
+                    }
+                });
+
+                anime({
+                    targets: shapePath,
+                    duration: 1100,
+                    easing: 'easeOutQuad',
+                    d: targetPath,
+                    complete: function() {
+                        mainEl.classList.add('active');
+                        initDualChaseOscilloscope();
+                    }
+                });
+            } else {
+                introEl.style.transform = 'translateY(-110vh)';
+                shapeWrap.style.display = 'none';
+                mainEl.classList.add('active');
+                initDualChaseOscilloscope();
+            }
+        }
+
+        function backToIntro() {
+            if (!isSwitched) return;
+            isSwitched = false;
+            const introEl = document.getElementById('content-intro');
+            const mainEl = document.getElementById('content-main');
+            const shapeWrap = document.getElementById('shape-wrap');
+            const shapePath = document.querySelector('#shape-wrap path');
+            const initialPath = "M-44-50C-52.71 28.52 15.86 8.186 184 14.69 383.3 22.39 462.5 12.58 638 14 835.5 15.6 987 6.4 1194 13.86 1661 30.68 1652-36.74 1582-140.1 1512-243.5 15.88-589.5-44-50Z";
+
+            mainEl.classList.remove('active');
+            shapeWrap.style.display = 'block';
+
+            if (window.anime) {
+                anime({
+                    targets: [introEl, shapeWrap],
+                    duration: 900,
+                    easing: 'easeInOutSine',
+                    translateY: '0vh'
+                });
+                anime({
+                    targets: shapePath,
+                    duration: 900,
+                    easing: 'easeInQuad',
+                    d: initialPath
+                });
+            } else {
+                introEl.style.transform = 'translateY(0vh)';
+                shapeWrap.style.transform = 'translateY(0vh)';
+            }
+        }
+
+        // 滚轮与点击交互触发转场
+        function handleWheel(e) {
+            const delta = e.deltaY || e.wheelDelta || e.detail;
+            if (delta > 0 && !isSwitched) {
+                switchPage();
+            }
+        }
+        window.addEventListener('wheel', handleWheel, { passive: true });
+        window.addEventListener('mousewheel', handleWheel, { passive: true });
+        document.getElementById('enter-btn').addEventListener('click', switchPage);
+        document.getElementById('scroll-hint').addEventListener('click', switchPage);
+
+        // 移动端轻扫手势
+        let touchStartY = 0;
+        window.addEventListener('touchstart', (e) => {
+            touchStartY = e.touches[0].pageY;
+        }, { passive: true });
+        window.addEventListener('touchend', (e) => {
+            const touchEndY = e.changedTouches[0].pageY;
+            if (touchStartY - touchEndY > 50 && !isSwitched) {
+                switchPage();
+            }
+        }, { passive: true });
+
+        /* --- 6. 双通道带特效流光曲线相互追逐引擎 (Dual Curve Chase) --- */
+        let dualOscInited = false;
+        function initDualChaseOscilloscope() {
+            if (dualOscInited) return;
+            dualOscInited = true;
+
+            const canvas = document.getElementById('osc-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const ch1SpeedEl = document.getElementById('ch1-speed');
+            const ch2SpeedEl = document.getElementById('ch2-speed');
+            const lagEl = document.getElementById('ch-lag');
+
+            function resize() {
+                canvas.width = canvas.parentElement.clientWidth;
+                canvas.height = canvas.parentElement.clientHeight;
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            let t = 0;
+            const maxPoints = 160;
+            const lineLeader = [];   // CH1 引领波 (极光青蓝)
+            const lineFollower = []; // CH2 追逐波 (赛博霓虹紫)
+            const sparks = [];       // 动态喷洒微光粒子
+
+            // 粒子火花类
+            class Sparkle {
+                constructor(x, y, color) {
+                    this.x = x;
+                    this.y = y;
+                    this.vx = (Math.random() - 0.8) * 1.8;
+                    this.vy = (Math.random() - 0.5) * 1.8;
+                    this.color = color;
+                    this.life = Math.random() * 25 + 15;
+                    this.maxLife = this.life;
+                    this.size = Math.random() * 2 + 1;
+                }
+                update() {
+                    this.x += this.vx;
+                    this.y += this.vy;
+                    this.life--;
+                }
+                draw() {
+                    const alpha = this.life / this.maxLife;
+                    ctx.fillStyle = this.color.replace(')', `, ${alpha})`).replace('rgb', 'rgba');
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            function renderChase() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                const w = canvas.width;
+                const h = canvas.height;
+                const cy = h / 2;
+
+                // 1. 绘制工业微网格与刻度
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.04)';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                const stepX = 26;
+                for (let x = 0; x <= w; x += stepX) {
+                    ctx.moveTo(x, 0); ctx.lineTo(x, h);
+                }
+                const stepY = 18;
+                for (let y = 0; y <= h; y += stepY) {
+                    ctx.moveTo(0, y); ctx.lineTo(w, y);
+                }
+                ctx.stroke();
+
+                // 2. 水平中轴基准线
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
+                ctx.setLineDash([4, 4]);
+                ctx.beginPath();
+                ctx.moveTo(0, cy); ctx.lineTo(w, cy);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // 3. 计算双曲线追逐数学模型
+                t += 0.052;
+
+                // CH1 (Leader / 青蓝): 主导波形，带有复杂的组合调制波
+                const valLeader = Math.sin(t * 1.1) * 0.55 + Math.sin(t * 2.3) * 0.25 + Math.cos(t * 0.4) * 0.15;
+                
+                // CH2 (Follower / 霓虹紫): 追逐波形，在相位上有延迟与追赶惯性
+                const valFollower = Math.sin((t - 0.42) * 1.1) * 0.53 + Math.sin((t - 0.38) * 2.3) * 0.24 + Math.cos((t - 0.5) * 0.4) * 0.16 + (Math.sin(t * 5.2) * 0.04);
+
+                lineLeader.push(valLeader);
+                lineFollower.push(valFollower);
+                if (lineLeader.length > maxPoints) lineLeader.shift();
+                if (lineFollower.length > maxPoints) lineFollower.shift();
+
+                // 为头部探针光圈及喷洒的飞沫粒子预留 38px 呼吸安全区，避免被右边缘裁剪
+                const leftPad = 8;
+                const rightPad = 38;
+                const availableW = w - leftPad - rightPad;
+                const dx = availableW / (maxPoints - 1);
+
+                // 4. 辅助函数：绘制发光平滑贝塞尔追逐曲线
+                function drawGlowCurve(points, strokeColor, shadowColor) {
+                    if (points.length < 2) return;
+                    ctx.save();
+                    ctx.strokeStyle = strokeColor;
+                    ctx.shadowColor = shadowColor;
+                    ctx.shadowBlur = 10;
+                    ctx.lineWidth = 2.2;
+                    ctx.beginPath();
+
+                    for (let i = 0; i < points.length; i++) {
+                        const px = leftPad + i * dx;
+                        const py = cy - (points[i] * (h * 0.4));
+                        if (i === 0) ctx.moveTo(px, py);
+                        else {
+                            // 贝塞尔微平滑连接
+                            const prevX = leftPad + (i - 1) * dx;
+                            const prevY = cy - (points[i - 1] * (h * 0.4));
+                            const mx = (prevX + px) / 2;
+                            const my = (prevY + py) / 2;
+                            ctx.quadraticCurveTo(prevX, prevY, mx, my);
+                        }
+                    }
+                    ctx.stroke();
+                    ctx.restore();
+                }
+
+                // 5. 渲染双线：CH2 (紫) 在前绘制，CH1 (青蓝) 在后绘制，产生交织融合
+                drawGlowCurve(lineFollower, '#c084fc', 'rgba(192, 132, 252, 0.8)');
+                drawGlowCurve(lineLeader, '#00f2fe', 'rgba(0, 242, 254, 0.85)');
+
+                // 6. 绘制两条曲线头部的高亮彗星光斑与飞沫粒子 (处于呼吸安全区内)
+                if (lineLeader.length > 1) {
+                    const idx = lineLeader.length - 1;
+                    const hxLeader = leftPad + idx * dx;
+                    const hyLeader = cy - (lineLeader[idx] * (h * 0.4));
+
+                    const hxFollower = leftPad + idx * dx;
+                    const hyFollower = cy - (lineFollower[idx] * (h * 0.4));
+
+                    // 喷洒火花粒子
+                    if (Math.random() < 0.65) {
+                        sparks.push(new Sparkle(hxLeader, hyLeader, 'rgb(0, 242, 254)'));
+                        sparks.push(new Sparkle(hxFollower, hyFollower, 'rgb(192, 132, 252)'));
+                    }
+
+                    // 绘制 CH1 探头光球 (青蓝)
+                    ctx.save();
+                    ctx.fillStyle = '#ffffff';
+                    ctx.shadowColor = '#00f2fe';
+                    ctx.shadowBlur = 14;
+                    ctx.beginPath();
+                    ctx.arc(hxLeader, hyLeader, 3.5, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    // 探针光圈
+                    ctx.strokeStyle = 'rgba(0, 242, 254, 0.6)';
+                    ctx.lineWidth = 1.5;
+                    ctx.beginPath();
+                    ctx.arc(hxLeader, hyLeader, 6.5, 0, Math.PI * 2);
+                    ctx.stroke();
+                    ctx.restore();
+
+                    // 绘制 CH2 探头光球 (霓虹紫)
+                    ctx.save();
+                    ctx.fillStyle = '#ffffff';
+                    ctx.shadowColor = '#c084fc';
+                    ctx.shadowBlur = 14;
+                    ctx.beginPath();
+                    ctx.arc(hxFollower, hyFollower, 3.5, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    // 探针光圈
+                    ctx.strokeStyle = 'rgba(192, 132, 252, 0.6)';
+                    ctx.lineWidth = 1.5;
+                    ctx.beginPath();
+                    ctx.arc(hxFollower, hyFollower, 6.5, 0, Math.PI * 2);
+                    ctx.stroke();
+                    ctx.restore();
+
+                    // 两探头之间的能量连接光弧 (缠绕时产生跳变电弧感)
+                    const distHead = Math.abs(hyLeader - hyFollower);
+                    if (distHead < 25) {
+                        ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(hxLeader, hyLeader);
+                        ctx.lineTo(hxFollower, hyFollower);
+                        ctx.stroke();
                     }
                 }
-                this.vx *= 0.97; this.vy *= 0.97;
-                this.x += this.vx; this.y += this.vy;
-                this.life--; if(this.life <= 0) this.reset();
+
+                // 7. 更新火花粒子
+                for (let i = sparks.length - 1; i >= 0; i--) {
+                    sparks[i].update();
+                    sparks[i].draw();
+                    if (sparks[i].life <= 0) sparks.splice(i, 1);
+                }
+
+                // 8. 实时数据面板更新
+                const rpm1 = (1500 + valLeader * 14).toFixed(1);
+                const rpm2 = (1500 + valFollower * 14).toFixed(1);
+                const dynamicLag = Math.round(Math.abs(valLeader - valFollower) * 20 + 8);
+                ch1SpeedEl.textContent = `${rpm1} RPM`;
+                ch2SpeedEl.textContent = `${rpm2} RPM`;
+                lagEl.textContent = `${dynamicLag} ms (LOCKED)`;
+
+                requestAnimationFrame(renderChase);
             }
-            draw() {
-                const opacity = (this.life / this.maxLife) * 0.5;
-                ctx.fillStyle = `rgba(206, 212, 218, ${opacity})`;
-                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI*2); ctx.fill();
-            }
+            renderChase();
         }
-        for(let i=0; i<200; i++) particles.push(new Particle());
-        function anim() {
-            ctx.fillStyle = 'rgba(2, 2, 4, 0.2)'; ctx.fillRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => { p.update(); p.draw(); });
-            requestAnimationFrame(anim);
-        }
+
+        /* --- 页面启动入口 --- */
+        window.addEventListener('DOMContentLoaded', () => {
+            loadData();
+            initIntro();
+            initParticleCanvas();
+        });
     </script>
 </body>
 </html>

@@ -1,17 +1,53 @@
 {
+  "profile": {
+    "name": "Z.J.Y",
+    "title": "Mechanical & Automation Engineer",
+    "subtitle": "工业自动化控制 · 数字化实践 · 云端边缘计算探索",
+    "location": "China",
+    "status": "OPERATIONAL / ONLINE",
+    "edgeNode": "Cloudflare Global Edge Network"
+  },
+  "skills": [
+    { "name": "PLC 工业控制", "category": "Industrial" },
+    { "name": "RGV 调度优化", "category": "Industrial" },
+    { "name": "SolidWorks / CAD", "category": "Mechanical" },
+    { "name": "运动控制算法", "category": "Industrial" },
+    { "name": "Cloudflare R2 / Workers", "category": "Cloud" },
+    { "name": "Python 数采与分析", "category": "Code" },
+    { "name": "Linux / 嵌入式", "category": "System" }
+  ],
   "articles": [
     {
-      "title": "Cloudflare R2 部署手册.md",
+      "title": "Cloudflare R2 部署手册",
       "date": "2026.04.11",
-      "url": "posts/r2-deploy.html"
+      "url": "posts/r2-deploy.html",
+      "tag": "云端架构",
+      "readTime": "4 min",
+      "summary": "免流量费的对象存储服务实践，适合工业日志归档与固件异地备份。"
     },
     {
-      "title": "RGV 控制逻辑优化方案.pdf",
+      "title": "RGV 控制逻辑优化方案",
       "date": "2026.04.05",
-      "url": "#"
+      "url": "#",
+      "tag": "自动化控制",
+      "readTime": "6 min",
+      "summary": "针对产线环形轨道 RGV 调度冲突及加减速曲线的数学建模与平滑优化。"
     }
   ],
   "files": [
-    { "name": "同步日志_2026_Q2.txt", "type": "DOC" }
+    {
+      "name": "同步日志_2026_Q2.txt",
+      "type": "DOC",
+      "size": "48 KB",
+      "updated": "2026-04-10",
+      "downloadUrl": "posts/r2-deploy.html"
+    },
+    {
+      "name": "RGV_Kinematics_Draft.step",
+      "type": "CAD",
+      "size": "2.4 MB",
+      "updated": "2026-04-02",
+      "downloadUrl": "#"
+    }
   ]
 }
